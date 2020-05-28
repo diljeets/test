@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"      	
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+
+        <p>Hello from Facelets</p>
+        <h:form id="myForm">
+            <p:panelGrid columns="2">
+                
+                    <p:outputLabel for="name" value="Name: "/>
+                    <p:inputText id="name" value="#{testManager.family.name}" />
+
+                    <p:outputLabel for="fathersName" value="Father's Name: "/>
+                    <p:inputText id="fathersName" value="#{testManager.family.fathersName}"/>
+               
+                    <p:outputLabel for="mothersName" value="Mother's Name: "/>
+                    <p:inputText id="mothersName" value="#{testManager.family.mothersName}"/>
+                                               
+                    <p:commandButton  action="#{testBean.createFamily(testManager.family)}" value="Create Family" update="myDatatable myForm">
+                        <f:param name="id" value="#{testManager.family.id}"/>
+                    </p:commandButton>
+                
+            </p:panelGrid>
+        </h:form>  
+
+        <h:form id="myDatatable">
+            <p>             
+                <p:dataTable id="datatable" 
+                             var="family"
+                             value="#{testManager.families}"                               
+                             rendered="#{testManager.families.size() > 0}"
+                             summary="List of Family Members" draggableColumns="true" draggableRows="true" >
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="ID"/>
+                        </f:facet> 
+                        <p:commandLink  actionListener="#{testManager.fetchFamilyById(family.id)}" update="myForm">
+                            <h:outputText value="#{family.id}"/>
+                        </p:commandLink>            
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="NAME"/>
+                        </f:facet>
+                        <h:outputText value="#{family.name}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="FATHER'S NAME"/>
+                        </f:facet>
+                        <h:outputText value="#{family.fathersName}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="MOTHER'S NAME"/>
+                        </f:facet>
+                        <h:outputText value="#{family.mothersName}"/>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="ACTIONS"/>
+                        </f:facet>
+                        <p:commandLink actionListener="#{testManager.deleteFamilyById(family.id)}" update="myDatatable">
+                            <h:outputText value="Delete"/>
+                        </p:commandLink>
+                    </p:column>
+
+
+                </p:dataTable>
+            </p>
+        </h:form>
+
+
+    </h:body>
+</html>
+
