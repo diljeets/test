@@ -5,6 +5,7 @@
  */
 package com.diljeet.test.resources;
 
+import com.diljeet.test.entity.Address;
 import com.diljeet.test.entity.Family;
 
 import java.net.URI;
@@ -44,15 +45,19 @@ public class TestService {
     @Produces({MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON})    
     public List<Family> getAllFamily(){
         List<Family> family = null;
-        
-        family = em.createNamedQuery("getAllFamilyMembers").getResultList();
+        try{       
+            family = em.createNamedQuery("getAllFamilyMembers").getResultList();
+        } catch (Exception e){
+            logger.log(Level.INFO, e.toString());
+        }
+       
         
         return family;
     }
     
     @GET
     @Path("{id}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON})
     public Family getFamilyById(@PathParam("id") Long id){
         Family family = null;
         try{
@@ -64,7 +69,7 @@ public class TestService {
     }
     
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON})
     public Response createFamily(Family family){ 
        
         logger.log(Level.INFO, "Object is " + family.getName());
@@ -86,7 +91,7 @@ public class TestService {
     
     @DELETE
     @Path("{id}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces({MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON})
     public void deleteFamilyById(@PathParam("id") Long id){
         Family family = null;
         try{
@@ -99,7 +104,7 @@ public class TestService {
     
     @PUT
     @Path("{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON})
     public Response updateFamilyById(@PathParam("id") Long id , Family family){
         logger.log(Level.INFO, "Enterd into update method" + id);
         Family oldFamily = null;
@@ -111,14 +116,18 @@ public class TestService {
             } else{
                 
                 //em.merge(family);
-                //oldFamily.setName(family.getName());
-                //oldFamily.setRelationship(family.getRelationship());
-                Query query = em.createNamedQuery("updateFamilyMembers");
-                query.setParameter("id", id);
-                query.setParameter("name", family.getName());
-                query.setParameter("fathersName", family.getFathersName());
-                query.setParameter("mothersName", family.getMothersName());
-                query.executeUpdate();
+                oldFamily.setName(family.getName());
+                oldFamily.setFathersName(family.getFathersName());
+                oldFamily.setMothersName(family.getMothersName());
+                oldFamily.setAddress(family.getAddress());    
+                
+//                Query query = em.createNamedQuery("updateFamilyMembers");
+//                query.setParameter("id", id);
+//                query.setParameter("name", family.getName());
+//                query.setParameter("fathersName", family.getFathersName());
+//                query.setParameter("mothersName", family.getMothersName());
+//                query.setParameter("address", family.getAddress());
+//                query.executeUpdate();
                 
                 logger.log(Level.INFO, "Updated record");
                 

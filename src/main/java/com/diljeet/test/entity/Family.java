@@ -6,6 +6,7 @@
 package com.diljeet.test.entity;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -28,15 +30,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name="family")
-@NamedQueries({
-    @NamedQuery(name = "getAllFamilyMembers",
+@NamedQuery(name = "getAllFamilyMembers",
         query = "SELECT f FROM Family f " + 
                     "ORDER BY f.id"
-        ),
-    @NamedQuery(name = "updateFamilyMembers",
-        query = "UPDATE Family f SET f.name = :name, f.fathersName = :fathersName, f.mothersName = :mothersName WHERE f.id = :id"
         )
-})
+//@NamedQueries({
+//    @NamedQuery(name = "getAllFamilyMembers",
+//        query = "SELECT f FROM Family f " + 
+//                    "ORDER BY f.id"
+//        ),
+//    @NamedQuery(name = "updateFamilyMembers",
+//        query = "UPDATE Family f SET f.name = :name, f.fathersName = :fathersName, f.mothersName = :mothersName, f.address = :address WHERE f.id = :id"
+//        )
+//})
 @XmlRootElement(name="family")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Family implements Serializable {
@@ -75,6 +81,13 @@ public class Family implements Serializable {
     @XmlAttribute(required = true)
     private String mothersName;
     
+    @OneToOne(cascade = CascadeType.ALL , orphanRemoval = true)
+    //@XmlAttribute(required = true)
+    private Address address;
+
+    public Family() {        
+        address = new Address();
+    }
 
     public Long getId() {
         return id;
@@ -107,7 +120,14 @@ public class Family implements Serializable {
     public void setMothersName(String mothersName) {
         this.mothersName = mothersName;
     }    
-    
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
     @Override
     public int hashCode() {

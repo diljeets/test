@@ -21,6 +21,24 @@
                
                     <p:outputLabel for="mothersName" value="Mother's Name: "/>
                     <p:inputText id="mothersName" value="#{testManager.family.mothersName}"/>
+                    
+                    <p:outputLabel for="houseNo" value="House No: "/>
+                    <p:inputText id="houseNo" value="#{testManager.family.address.houseNo}"/>
+                    
+                    <p:outputLabel for="buildingNo" value="Building No: "/>
+                    <p:inputText id="buildingNo" value="#{testManager.family.address.buildingNo}"/>
+                    
+                    <p:outputLabel for="street" value="Street: "/>
+                    <p:inputText id="street" value="#{testManager.family.address.street}"/>
+                    
+                    <p:outputLabel for="city" value="City: "/>
+                    <p:inputText id="city" value="#{testManager.family.address.city}"/>
+                    
+                    <p:outputLabel for="state" value="State: "/>
+                    <p:inputText id="state" value="#{testManager.family.address.state}"/>
+                    
+                    <p:outputLabel for="pincode" value="Pincode: "/>
+                    <p:inputText id="pincode" value="#{testManager.family.address.pincode}"/>
                                                
                     <p:commandButton  action="#{testBean.createFamily(testManager.family)}" value="Create Family" update="myDatatable myForm">
                         <f:param name="id" value="#{testManager.family.id}"/>
@@ -65,6 +83,48 @@
                             <h:outputText value="MOTHER'S NAME"/>
                         </f:facet>
                         <h:outputText value="#{family.mothersName}"/>
+                    </p:column>
+                    
+                     <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="HOUSE NO"/>
+                        </f:facet>
+                         <h:outputText value="#{family.address.houseNo}"/>
+                    </p:column>
+                    
+                     <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="BUILDING NO"/>
+                        </f:facet>
+                         <h:outputText value="#{family.address.buildingNo}"/>
+                    </p:column>
+                    
+                     <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="STREET"/>
+                        </f:facet>
+                         <h:outputText value="#{family.address.street}"/>
+                    </p:column>
+                    
+                     <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="CITY"/>
+                        </f:facet>
+                         <h:outputText value="#{family.address.city}"/>
+                    </p:column>
+                    
+                     <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="STATE"/>
+                        </f:facet>
+                         <h:outputText value="#{family.address.state}"/>
+                    </p:column>
+                    
+                     <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="PINCODE"/>
+                        </f:facet>
+                         <h:outputText value="#{family.address.pincode}"/>
                     </p:column>
 
                     <p:column>

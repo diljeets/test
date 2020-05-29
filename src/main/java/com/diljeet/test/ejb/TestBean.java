@@ -88,7 +88,7 @@ public class TestBean {
 
         if (id == null) {
             Response response = client.target("http://localhost:9090/test/webapi/Family")
-                    .request(MediaType.APPLICATION_JSON , MediaType.APPLICATION_XML)
+                    .request(MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON)
                     .post(Entity.entity(family, MediaType.APPLICATION_JSON), Response.class);
 
             if (response.getStatus() == Status.CREATED.getStatusCode()) {
@@ -101,7 +101,7 @@ public class TestBean {
             
             Response response = client.target("http://localhost:9090/test/webapi/Family")
                     .path(id)
-                    .request(MediaType.APPLICATION_JSON , MediaType.APPLICATION_XML)
+                    .request(MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON)
                     .put(Entity.entity(family, MediaType.APPLICATION_JSON), Response.class);
             
             if (response.getStatus() == Status.CREATED.getStatusCode()) {
@@ -122,7 +122,7 @@ public class TestBean {
         List<Family> family
                 = client.target("http://localhost:9090/test/webapi/Family")
                         .path("all")
-                        .request(MediaType.APPLICATION_JSON , MediaType.APPLICATION_XML)
+                        .request(MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON)
                         .get(new GenericType<List<Family>>() {
                         });
 
@@ -134,7 +134,7 @@ public class TestBean {
         Family family
                 = client.target("http://localhost:9090/test/webapi/Family")
                         .path(id)
-                        .request(MediaType.APPLICATION_JSON , MediaType.APPLICATION_XML)
+                        .request(MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON)
                         .get(Family.class);
 
         return family;
@@ -143,7 +143,7 @@ public class TestBean {
     public void deleteFamilyById(String id) {
         client.target("http://localhost:9090/test/webapi/Family")
                 .path(id)
-                .request(MediaType.APPLICATION_JSON , MediaType.APPLICATION_XML)
+                .request(MediaType.APPLICATION_XML , MediaType.APPLICATION_JSON)
                 .delete(Family.class);
     }
 }
