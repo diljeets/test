@@ -12,48 +12,56 @@
         <p>Hello from Facelets</p>
         <h:form id="myForm">
             <p:panelGrid columns="2">
-                
-                    <p:outputLabel for="name" value="Name: "/>
-                    <p:inputText id="name" value="#{testManager.family.name}" />
 
-                    <p:outputLabel for="fathersName" value="Father's Name: "/>
-                    <p:inputText id="fathersName" value="#{testManager.family.fathersName}"/>
-               
-                    <p:outputLabel for="mothersName" value="Mother's Name: "/>
-                    <p:inputText id="mothersName" value="#{testManager.family.mothersName}"/>
-                    
-                    <p:outputLabel for="houseNo" value="House No: "/>
-                    <p:inputText id="houseNo" value="#{testManager.family.address.houseNo}"/>
-                    
-                    <p:outputLabel for="buildingNo" value="Building No: "/>
-                    <p:inputText id="buildingNo" value="#{testManager.family.address.buildingNo}"/>
-                    
-                    <p:outputLabel for="street" value="Street: "/>
-                    <p:inputText id="street" value="#{testManager.family.address.street}"/>
-                    
-                    <p:outputLabel for="city" value="City: "/>
-                    <p:inputText id="city" value="#{testManager.family.address.city}"/>
-                    
-                    <p:outputLabel for="state" value="State: "/>
-                    <p:inputText id="state" value="#{testManager.family.address.state}"/>
-                    
-                    <p:outputLabel for="pincode" value="Pincode: "/>
-                    <p:inputText id="pincode" value="#{testManager.family.address.pincode}"/>
-                                               
-                    <p:commandButton  action="#{testBean.createFamily(testManager.family)}" value="Create Family" update="myDatatable myForm">
-                        <f:param name="id" value="#{testManager.family.id}"/>
-                    </p:commandButton>
-                
+                <p:outputLabel for="name" value="Name: "/>
+                <p:inplace id="name">
+                    <p:inputText value="#{testManager.family.name}" />
+                </p:inplace>
+
+                <p:outputLabel for="fathersName" value="Father's Name: "/>
+                <p:inputText id="fathersName" value="#{testManager.family.fathersName}"/>
+
+                <p:outputLabel for="mothersName" value="Mother's Name: "/>
+                <p:inputText id="mothersName" value="#{testManager.family.mothersName}"/>
+
+                <p:outputLabel for="houseNo" value="House No: "/>
+                <p:inputText id="houseNo" value="#{testManager.family.address.houseNo}"/>
+
+                <p:outputLabel for="buildingNo" value="Building No: "/>
+                <p:inputText id="buildingNo" value="#{testManager.family.address.buildingNo}"/>
+
+                <p:outputLabel for="street" value="Street: "/>
+                <p:inputText id="street" value="#{testManager.family.address.street}"/>
+
+                <p:outputLabel for="@next" value="City: "/>
+                <p:selectOneMenu id="city" value="#{testManager.family.address.city}" effect="fold" editable="true" style="width: 125px">
+                    <f:selectItem itemLabel="Select One" itemValue="" />
+                    <f:selectItem itemLabel="Mumbai" itemValue="Mumbai" />
+                    <f:selectItem itemLabel="Delhi" itemValue="Delhi" />
+                    <f:selectItem itemLabel="Chennai" itemValue="Chennai" />                   
+                    <f:selectItem itemLabel="Pune" itemValue="Pune" />    
+                    <f:selectItem itemLabel="Gurgaon" itemValue="Gurgaon" />    
+                </p:selectOneMenu>
+
+                <p:outputLabel for="state" value="State: "/>
+                <p:inputText id="state" value="#{testManager.family.address.state}"/>
+
+                <p:outputLabel for="pincode" value="Pincode: "/>
+                <p:inputText id="pincode" value="#{testManager.family.address.pincode}"/>
+
+                <p:commandButton  action="#{testBean.createFamily(testManager.family)}" value="Create Family" update="myDatatable">
+                    <f:param name="id" value="#{testManager.family.id}"/>
+                </p:commandButton>
+
             </p:panelGrid>
         </h:form>  
 
         <h:form id="myDatatable">
             <p>             
-                <p:dataTable id="datatable" 
-                             var="family"
+                <p:dataTable id="datatable"                              
                              value="#{testManager.families}"                               
                              rendered="#{testManager.families.size() > 0}"
-                             summary="List of Family Members" draggableColumns="true" draggableRows="true" >
+                             summary="List of Family Members" draggableColumns="true" draggableRows="true" var="family">
 
                     <p:column>
                         <f:facet name="header">
@@ -84,47 +92,47 @@
                         </f:facet>
                         <h:outputText value="#{family.mothersName}"/>
                     </p:column>
-                    
-                     <p:column>
+
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="HOUSE NO"/>
                         </f:facet>
-                         <h:outputText value="#{family.address.houseNo}"/>
+                        <h:outputText value="#{family.address.houseNo}"/>
                     </p:column>
-                    
-                     <p:column>
+
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="BUILDING NO"/>
                         </f:facet>
-                         <h:outputText value="#{family.address.buildingNo}"/>
+                        <h:outputText value="#{family.address.buildingNo}"/>
                     </p:column>
-                    
-                     <p:column>
+
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="STREET"/>
                         </f:facet>
-                         <h:outputText value="#{family.address.street}"/>
+                        <h:outputText value="#{family.address.street}"/>
                     </p:column>
-                    
-                     <p:column>
+
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="CITY"/>
                         </f:facet>
-                         <h:outputText value="#{family.address.city}"/>
+                        <h:outputText value="#{family.address.city}"/>
                     </p:column>
-                    
-                     <p:column>
+
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="STATE"/>
                         </f:facet>
-                         <h:outputText value="#{family.address.state}"/>
+                        <h:outputText value="#{family.address.state}"/>
                     </p:column>
-                    
-                     <p:column>
+
+                    <p:column>
                         <f:facet name="header">
                             <h:outputText value="PINCODE"/>
                         </f:facet>
-                         <h:outputText value="#{family.address.pincode}"/>
+                        <h:outputText value="#{family.address.pincode}"/>
                     </p:column>
 
                     <p:column>

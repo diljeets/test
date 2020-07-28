@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -32,27 +33,33 @@ public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @XmlAttribute(required = true)
+    @XmlAttribute
     private Long id;
     
+    //@NotNull
     @Column(name = "house_no")
-    @XmlAttribute(required = true)
+    @XmlAttribute
     private String houseNo;
     
+    //@NotNull
     @Column(name = "building_no")
-    @XmlAttribute(required = true)
+    @XmlAttribute
     private String buildingNo;
     
-    @XmlAttribute(required = true)
+    //@NotNull
+    @XmlAttribute
     private String street;
     
-    @XmlAttribute(required = true)
+    //@NotNull
+    @XmlAttribute
     private String city;
     
-    @XmlAttribute(required = true)
+    //@NotNull
+    @XmlAttribute
     private String state;    
     
-    @XmlAttribute(required = true)
+    //@NotNull
+    @XmlAttribute
     private String pincode;
 
     public Address() {

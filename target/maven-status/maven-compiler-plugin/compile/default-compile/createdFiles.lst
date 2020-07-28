@@ -1,6 +1,11 @@
+com/diljeet/test/resources/EJBAccessExceptionMapper.class
+com/diljeet/test/resources/TestService$1.class
 com/diljeet/test/resources/TestService.class
+com/diljeet/test/ejb/TestBeanRemote.class
+com/diljeet/test/resources/TestServiceInterface.class
 com/diljeet/web/TestManager.class
 com/diljeet/test/ejb/TestBean$1.class
 com/diljeet/test/resources/TestApplication.class
 com/diljeet/test/entity/Family.class
+com/diljeet/test/entity/Address.class
 com/diljeet/test/ejb/TestBean.class

@@ -6,15 +6,21 @@
 package com.diljeet.web;
 
 import com.diljeet.test.ejb.TestBean;
+import com.diljeet.test.ejb.TestBeanRemote;
 import com.diljeet.test.entity.Family;
+import com.diljeet.test.resources.TestService;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
+import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -22,7 +28,7 @@ import javax.inject.Named;
  * @author diljeet
  */
 @Named(value = "testManager")
-@RequestScoped
+@SessionScoped
 public class TestManager implements Serializable{
 
     private static final Logger logger = Logger.getLogger(TestManager.class.getCanonicalName());
@@ -33,8 +39,8 @@ public class TestManager implements Serializable{
     private List<Family> families;
     
     @EJB
-    private TestBean testBean;
-    
+    TestBean testBean;   
+        
     @PostConstruct
     private void init(){
         family = new Family();
@@ -55,8 +61,9 @@ public class TestManager implements Serializable{
         this.family = family;
     }
 
-    public List<Family> getFamilies() {
-        return testBean.getALlFamily();        
+    public List<Family> getFamilies() {        
+        return testBean.getAllFamily();        
+        //return testService.getAllFamily();
     }
 
     public void setFamilies(List<Family> families) {

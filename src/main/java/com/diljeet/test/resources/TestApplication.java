@@ -5,6 +5,7 @@
  */
 package com.diljeet.test.resources;
 
+import com.diljeet.test.ejb.TestBean;
 import java.util.HashSet;
 import java.util.Set;
 import javax.ws.rs.ApplicationPath;
@@ -20,8 +21,9 @@ public class TestApplication extends Application{
     @Override
     public Set<Class<?>> getClasses() {
         final Set<Class<?>> classes = new HashSet<>();
-        // register root resource
+        // register root resource        
         classes.add(TestService.class);
+        classes.add(EJBAccessExceptionMapper.class);
         return classes;
     }
     

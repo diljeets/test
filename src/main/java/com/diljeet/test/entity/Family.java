@@ -6,12 +6,15 @@
 package com.diljeet.test.entity;
 
 import java.io.Serializable;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -22,6 +25,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 /**
@@ -61,28 +65,28 @@ public class Family implements Serializable {
 //    )
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)    
-    @XmlAttribute(required = true)
+    @XmlAttribute
     private Long id;    
     
     @NotEmpty
     @NotBlank
-    @XmlAttribute(required = true)
-    private String name;    
+    @XmlAttribute
+    private String name = "Enter Name";    
     
     @NotEmpty
     @NotBlank
     @Column(name = "fathers_name")
-    @XmlAttribute(required = true)
+    @XmlAttribute
     private String fathersName;
     
     @NotEmpty
     @NotBlank
     @Column(name = "mothers_name")
-    @XmlAttribute(required = true)
-    private String mothersName;
+    @XmlAttribute
+    private String mothersName;    
     
-    @OneToOne(cascade = CascadeType.ALL , orphanRemoval = true)
-    //@XmlAttribute(required = true)
+    @OneToOne(cascade = CascadeType.ALL , orphanRemoval = true)    
+//    @XmlAttribute(required = true)      
     private Address address;
 
     public Family() {        
