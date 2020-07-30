@@ -16,7 +16,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -36,6 +36,10 @@
     </error-page>-->
 <!--    <mime-mapping>
         <extension>html</extension>
+        <mime-type>text/html</mime-type>
+    </mime-mapping>
+     <mime-mapping>
+        <extension>jsp</extension>
         <mime-type>text/html</mime-type>
     </mime-mapping>-->
     
@@ -71,13 +75,13 @@
     </security-constraint>        
    
     <login-config>
-        <auth-method>BASIC</auth-method>
-        <!--        <realm-name>other</realm-name>-->
-        <realm-name>testApplicationDomain</realm-name>
-        <!--                <form-login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>other</realm-name>
+<!--        <realm-name>testApplicationDomain</realm-name>-->
+        <form-login-config>
             <form-login-page>/login.html</form-login-page>
-            <form-error-page>/error.html</form-error-page>
-        </form-login-config>-->
+            <form-error-page>/error.xhtml</form-error-page>
+        </form-login-config>
     </login-config>  
       
     <security-role>

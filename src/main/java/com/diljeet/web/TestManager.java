@@ -10,6 +10,7 @@ import com.diljeet.test.ejb.TestBeanRemote;
 import com.diljeet.test.entity.Family;
 import com.diljeet.test.resources.TestService;
 import java.io.Serializable;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -61,7 +63,7 @@ public class TestManager implements Serializable{
         this.family = family;
     }
 
-    public List<Family> getFamilies() {        
+    public List<Family> getFamilies() {
         return testBean.getAllFamily();        
         //return testService.getAllFamily();
     }

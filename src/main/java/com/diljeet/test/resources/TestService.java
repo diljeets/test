@@ -36,6 +36,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.AbstractDocument;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.ForbiddenException;
@@ -47,10 +48,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.jboss.ejb3.annotation.RunAsPrincipal;
-import org.jboss.ejb3.annotation.SecurityDomain;
+//import org.jboss.ejb3.annotation.RunAsPrincipal;
+//import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
  *
@@ -92,17 +94,22 @@ public class TestService implements TestServiceInterface {
 //        String name = principal.getName();
 //        logger.log(Level.SEVERE, "Caller name is: {0}", name); 
         //throw new WebApplicationException(); 
-        
+//        Enumeration<String> headerNames =  req.getHeaderNames();
+//         while(headerNames.hasMoreElements())
+//             logger.log(Level.SEVERE, headerNames.nextElement()); 
+//         
+//        logger.log(Level.SEVERE, req.getHeader("Authorization"));  
         List<Family> family = null;
         GenericEntity<List<Family>> genericFamilyList = null;
         try {            
             family = em.createNamedQuery("getAllFamilyMembers").getResultList();
             genericFamilyList = new GenericEntity<List<Family>>(family) {
-            };
+            };            
           } catch(Exception e) {
             logger.log(Level.SEVERE, e.toString());              
         }
-
+        //return Response.ok(genericFamilyList, req.getHeader("Accept")).build();
+        //return Response.ok().entity(genericFamilyList).header(HttpHeaders.CONTENT_TYPE, req.getHeader("Accept")).build();
         return Response.ok().entity(genericFamilyList).build();
     }
 

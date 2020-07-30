@@ -13,6 +13,7 @@ import java.security.Principal;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -50,9 +51,10 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import org.jboss.ejb3.annotation.SecurityDomain;
+//import org.jboss.ejb3.annotation.SecurityDomain;
 
 /**
  *
@@ -132,7 +134,7 @@ public class TestBean {
             //logger.info("Entered into null condition");
             Response response = client.target("http://localhost:8080/test/webapi/Family")
                     .request(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)                    
-                    .header("Authorization", req.getHeader("Authorization"))
+                    .header("Cookie", req.getHeader("Cookie"))
                     .post(Entity.entity(family, MediaType.APPLICATION_JSON), Response.class);
 
             if (response.getStatus() == Status.CREATED.getStatusCode()) {
@@ -146,7 +148,7 @@ public class TestBean {
                 Response response = client.target("http://localhost:8080/test/webapi/Family")
                         .path(id)
                         .request(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)
-                        .header("Authorization", req.getHeader("Authorization"))
+                        .header("Cookie", req.getHeader("Cookie"))
                         .put(Entity.entity(family, MediaType.APPLICATION_JSON), Response.class);
 
                 if (response.getStatus() == Status.CREATED.getStatusCode()) {
@@ -192,19 +194,25 @@ public class TestBean {
 //         while(headerNames.hasMoreElements())
 //             logger.log(Level.SEVERE, headerNames.nextElement()); 
 //         
-//        logger.log(Level.SEVERE, req.getHeader("Authorization"));    
+//        logger.log(Level.SEVERE, "TestBean {0} ", req.getHeader("Cookie"));    
         
         List<Family> family = null;
         Response response = null;
         try {            
             response = client.target("http://localhost:8080/test/webapi/Family")
                     .path("all")
-                    .request(MediaType.APPLICATION_JSON)                    
-                    .header("Authorization", req.getHeader("Authorization"))                    
+                    .request(MediaType.APPLICATION_JSON)  
+                    .header("Cookie", req.getHeader("Cookie"))
                     .accept(MediaType.APPLICATION_JSON)
                     .get();
 
-            if (response.getStatus() == Status.OK.getStatusCode()) {                                  
+            if (response.getStatus() == Status.OK.getStatusCode()) { 
+//                MultivaluedMap<String,Object> headers = response.getHeaders();
+//                Set<String> keysets = headers.keySet();
+//                String stringKeysets = keysets.toString();
+//                String headerValue = response.getHeaderString("Content-Type");
+//                logger.log(Level.SEVERE, "Response is ok {0}", stringKeysets);
+//                logger.log(Level.SEVERE, "Response is ok {0} ", headerValue);
                 family = response.readEntity(new GenericType<List<Family>>() {
                 });                
             } else {
@@ -223,7 +231,7 @@ public class TestBean {
                 = client.target("http://localhost:8080/test/webapi/Family")
                         .path(id)
                         .request(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)
-                        .header("Authorization", req.getHeader("Authorization"))
+                        .header("Cookie", req.getHeader("Cookie"))
                         .get(Family.class);
 
         return family;
@@ -233,7 +241,7 @@ public class TestBean {
         client.target("http://localhost:8080/test/webapi/Family")
                 .path(id)
                 .request(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON)
-                .header("Authorization", req.getHeader("Authorization"))
+                .header("Cookie", req.getHeader("Cookie"))
                 .delete(Family.class);
     }
 }
