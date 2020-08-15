@@ -88,7 +88,7 @@ public class TestService implements TestServiceInterface {
 //        return family;
 //    }
     @Override
-    @RolesAllowed({"Administrator", "Monitor"})
+    @RolesAllowed({"Administrator","Monitor"})
     public Response getAllFamily(){
 //        Principal principal = ctx.getCallerPrincipal();
 //        String name = principal.getName();

@@ -23,7 +23,9 @@ public class TestApplication extends Application{
         final Set<Class<?>> classes = new HashSet<>();
         // register root resource        
         classes.add(TestService.class);
+        classes.add(TestUsersServiceBean.class);
         classes.add(EJBAccessExceptionMapper.class);
+        classes.add(GeneralExceptionMapper.class);
         return classes;
     }
     

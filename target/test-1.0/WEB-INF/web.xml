@@ -62,7 +62,7 @@
         <display-name>Constraint2</display-name>
         <web-resource-collection>
             <web-resource-name>webapi</web-resource-name>            
-            <url-pattern>/webapi/*</url-pattern>            
+            <url-pattern>/webapi/Family/*</url-pattern>            
         </web-resource-collection>
         <auth-constraint>
             <role-name>Administrator</role-name>            
@@ -76,11 +76,13 @@
    
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>other</realm-name>
+        <realm-name>jdbcRealmApplicationDomain</realm-name>
+<!--        <realm-name>myDbDomain</realm-name>-->
+<!--        <realm-name>other</realm-name>-->
 <!--        <realm-name>testApplicationDomain</realm-name>-->
         <form-login-config>
             <form-login-page>/login.html</form-login-page>
-            <form-error-page>/error.xhtml</form-error-page>
+            <form-error-page>/error_1.xhtml</form-error-page>
         </form-login-config>
     </login-config>  
       

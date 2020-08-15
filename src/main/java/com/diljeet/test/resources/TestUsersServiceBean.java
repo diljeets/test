@@ -1,0 +1,141 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.diljeet.test.resources;
+
+import com.diljeet.test.ejb.TestUsersBean;
+import com.diljeet.test.entity.TestUsers;
+import java.security.MessageDigest;
+import java.security.Provider;
+import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.Stateless;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.ws.rs.core.Response;
+import org.jboss.security.Base64Encoder;
+import org.jboss.security.auth.spi.Util;
+import org.wildfly.security.WildFlyElytronProvider;
+import org.wildfly.security.asn1.DEREncoder;
+import org.wildfly.security.password.Password;
+import org.wildfly.security.password.PasswordFactory;
+import org.wildfly.security.password.interfaces.ClearPassword;
+import org.wildfly.security.password.interfaces.SimpleDigestPassword;
+import org.wildfly.security.password.spec.BasicPasswordSpecEncoding;
+import org.wildfly.security.password.spec.ClearPasswordSpec;
+import org.wildfly.security.password.spec.HashPasswordSpec;
+
+/**
+ *
+ * @author diljeet
+ */
+@Stateless
+//@RolesAllowed("Administrator")
+public class TestUsersServiceBean implements TestUsersService {
+
+//    private static final Logger logger = Logger.getLogger(TestUsersServiceBean.class.getCanonicalName());   
+//    
+//    @Resource
+//    TestUsersBean testUserBean;
+//
+//    @Override
+//    public void createUser(TestUsers user) {
+//        if(user == null){
+//            return;
+//        }
+//        logger.log(Level.SEVERE, user.getUsername());
+//        logger.log(Level.SEVERE, user.getPassword());
+//    }
+//
+//    @Override
+//    public List<TestUsers> getUser() {
+//        return testUserBean.getUser();
+//    }
+    private static final Logger logger = Logger.getLogger(TestUsersBean.class.getCanonicalName());
+
+    static final Provider ELYTRON_PROVIDER = new WildFlyElytronProvider();
+
+    @PersistenceContext(name = "my-persistence-unit")
+    private EntityManager em;
+
+    @Override
+    public Response createUser(TestUsers user) throws Exception {
+        logger.log(Level.SEVERE, "inside service createUser method");
+        if (user == null) {
+            return null;
+        } else {
+
+            if (user.getRole() == null) {
+                user.setRole("Administrator");
+            }
+
+//            if(user.getSalt() == null)
+//                user.setSalt(generateSalt());
+//            logger.log(Level.SEVERE, "Salt is {0} ", user.getSalt()+user.getPassword());
+//            String hashedPassword = Util.createPasswordHash("SHA-512",
+//                                                Util.BASE64_ENCODING,
+//                                                null,
+//                                                null,
+//                                                user.getPassword());
+//            logger.log(Level.SEVERE, "HashedPassword is {0} ", hashedPassword);
+//            user.setPassword(hashedPassword);      
+//            PasswordFactory passwordFactory = PasswordFactory.getInstance(SimpleDigestPassword.ALGORITHM_SIMPLE_DIGEST_SHA_512, ELYTRON_PROVIDER);
+//            ClearPasswordSpec clearSpec = new ClearPasswordSpec(user.getPassword().toCharArray());            
+//            SimpleDigestPassword original = (SimpleDigestPassword) passwordFactory.generatePassword(clearSpec);
+//
+//            byte[] digest = original.getDigest();
+            
+            //HashPasswordSpec hashSpec = new HashPasswordSpec(digest);
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(user.getPassword().getBytes());
+            byte[] digest = md.digest();
+            String hashedPassword = Base64.getEncoder().encodeToString(digest);            
+            user.setPassword(hashedPassword); 
+            
+//            DEREncoder encoder = new DEREncoder();
+//            encoder.startSequence();            
+//            encoder.encodeOctetString(hashSpec.getDigest());            
+//            encoder.endSequence();            
+//            SimpleDigestPassword restored = (SimpleDigestPassword) passwordFactory.generatePassword(hashSpec);
+//
+//            System.out.println(String.format("Password Verified '%b'", passwordFactory.verify(restored, user.getPassword().toCharArray())));
+        }
+
+        try {
+            em.persist(user);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+
+        return Response.status(Response.Status.CREATED).build();
+    }
+
+    @Override
+    public List<TestUsers> getUser() {
+        //logger.log(Level.SEVERE, "Coming from service");
+        List<TestUsers> users = null;
+        try {
+            users = em.createNamedQuery("getAllUsers").getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public String generateSalt() {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        String encodedSalt = Util.encodeBase16(salt);
+        return encodedSalt;
+    }
+
+}
