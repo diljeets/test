@@ -28,17 +28,17 @@
             <artifactId>primefaces</artifactId>
             <version>8.0</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.picketbox</groupId>
             <artifactId>picketbox</artifactId>
             <version>5.0.3.Final</version>
-        </dependency>
+        </dependency>-->
         <!-- https://mvnrepository.com/artifact/org.wildfly.security/wildfly-elytron -->
-        <dependency>
+<!--        <dependency>
             <groupId>org.wildfly.security</groupId>
             <artifactId>wildfly-elytron</artifactId>
             <version>1.12.1.Final</version>
-        </dependency>
+        </dependency>-->
 
         
 

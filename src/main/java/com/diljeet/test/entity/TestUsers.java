@@ -20,7 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.security.enterprise.identitystore.PasswordHash;
-import org.jboss.security.auth.spi.Util;
+//import org.jboss.security.auth.spi.Util;
 
 
 
@@ -135,14 +135,6 @@ public class TestUsers implements Serializable {
     public void setSalt(String salt) {
         this.salt = salt;
     }
-    
-//    public byte[] generateSalt(){
-//        SecureRandom random = new SecureRandom();
-//        byte[] salt = new byte[16];
-//        random.nextBytes(salt);
-//        return salt;
-//    }
-
     
     @Override
     public int hashCode() {
