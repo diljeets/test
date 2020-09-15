@@ -6,7 +6,7 @@
 package com.diljeet.test.ejb;
 
 import com.diljeet.test.entity.Family;
-import com.diljeet.test.resources.TestService;
+import com.diljeet.test.services.TestService;
 import java.io.Serializable;
 import java.security.KeyStore;
 import java.security.Principal;

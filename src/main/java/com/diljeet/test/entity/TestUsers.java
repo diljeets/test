@@ -18,8 +18,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.security.enterprise.identitystore.PasswordHash;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 //import org.jboss.security.auth.spi.Util;
 
 
@@ -42,13 +50,30 @@ public class TestUsers implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotBlank
+    @NotEmpty
+    @Email(message = "Not a valid Email Id.")
     private String username;
     
+//    @Pattern(regexp = "^[A-Za-z0-9]+$",message="invalid password")
+//    @NotBlank
+//    @NotEmpty
+    
+    @NotNull
+    @Size(min = 8 , max = 15 , message = "Password can be 8-15 characters in length")
+    @Pattern(regexp = "^[A-Za-z0-9!@#$%&]+$" , message="invalid password")
     private String password;    
+    
+    @Transient
+    private String retypePassword;
     
     private String role;
     
-    private String salt;    
+    private String salt;   
+    
+    private String isActive;
+    
+    private String isPasswordChangeRequest;
 
 //    @PostConstruct
 //    public void init(){
@@ -120,6 +145,14 @@ public class TestUsers implements Serializable {
 //        System.out.println(this.password);
     }
 
+    public String getRetypePassword() {
+        return retypePassword;
+    }
+
+    public void setRetypePassword(String retypePassword) {
+        this.retypePassword = retypePassword;
+    }
+    
     public String getRole() {
         return role;
     }
@@ -134,8 +167,24 @@ public class TestUsers implements Serializable {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }    
+
+    public String getIsActive() {
+        return isActive;
     }
-    
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
+    }
+
+    public String getIsPasswordChangeRequest() {
+        return isPasswordChangeRequest;
+    }
+
+    public void setIsPasswordChangeRequest(String isPasswordChangeRequest) {
+        this.isPasswordChangeRequest = isPasswordChangeRequest;
+    }    
+        
     @Override
     public int hashCode() {
         int hash = 0;

@@ -1,13 +1,61 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Login</title>
     </h:head>
     <h:body>
-        Hello from Facelets
-        
+        <h2>Hello, please log in:</h2>
+        <p>
+            <h:outputText value="Authentication failed" rendered="#{param['fail'] == 'true'}" style="color:#ff0000"/>
+        </p>    
+        <p>
+            <h:outputText value="Account is Active. Kindly login again." rendered="#{param['account'] == 'true'}" style="color:#ff0000"/>
+        </p>
+        <p>
+            <h:outputText value="Account/User either is inactive or does not exist." rendered="#{param['account'] == 'false'}" style="color:#ff0000"/>
+        </p>
+        <p>
+            <h:outputText value="Account/User is already Active." rendered="#{param['isactive'] == 'true'}" style="color:#ff0000"/>
+        </p>
+        <p>
+            <h:outputText value="Kindly use Password sent to your registered Email id to login." rendered="#{param['sentPassword'] == 'true'}" style="color:#ff0000"/>
+        </p>
+        <p>
+            <h:outputText value="Password changed Successfully." rendered="#{param['passwordChanged'] == 'true'}" style="color:#ff0000"/>
+        </p>
+         <p>
+            <h:outputText value="Password has already been changed." rendered="#{param['passwordAlreadyChanged'] == 'true'}" style="color:#ff0000"/>
+        </p>
+        <form method="post" action="j_security_check">
+            <table role="presentation">
+                <tr>
+                    <td>Please type your user name: </td>
+                    <td><input type="text" name="j_username"
+                               size="20"/></td>
+                </tr>
+                <tr>
+                    <td>Please type your password: </td>
+                    <td><input type="password" name="j_password"
+                               size="20"/></td>
+                </tr>
+            </table>
+            <p></p>
+            <input type="submit" value="Submit"/>
+            &nbsp;
+            <input type="reset" value="Reset"/>
+            <p>
+                <a href="forgot-password.xhtml">Forgot Password</a>?
+            </p>            
+            <p>
+                New User? <a href="signup.xhtml">Sign Up</a>?
+            </p>
+            <p>
+                <a href="change-password.xhtml">Change Password</a>
+            </p>
+        </form>
     </h:body>
 </html>
 

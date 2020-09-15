@@ -9,18 +9,27 @@
     <h:body>
         Hello, Kindly Register
         <p>
-            <h:form>
-                <p:panelGrid columns="2">
+            <h:form id="signupForm">
+                <!--                <p:growl id="msgs" showDetail="true"/>-->                
+                <p>
+                    <p:message id="msgs" for="createBtn" showDetail="true"/>                    
+                </p>
+                <p:panelGrid columns="3">
 
                     <p:outputLabel for="username" value="Username"/>
                     <p:inputText id="username" value="#{testUsersController.user.username}"/>
+                    <p:message for="username"/>
 
                     <p:outputLabel for="password" value="Password"/>
-                    <p:inputText id="password" value="#{testUsersController.user.password}"/>
+                    <p:password id="password" value="#{testUsersController.user.password}"/>  
+                    <p:message for="password"/>
 
-                    <p:commandButton value="Create" action="#{testUsersBean.createUser(testUsersController.user)}"/>
+                    <p:outputLabel for="retypePassword" value="Retype Password"/>
+                    <p:password id="retypePassword" value="#{testUsersController.user.retypePassword}"/>
+                    <p:message for="retypePassword"/>                  
 
                 </p:panelGrid>
+                 <p:commandButton value="Create" id="createBtn" action="#{testUsersController.createUser(testUsersController.user)}" binding="#{testUsersController.createBtn}" update="signupForm msgs"/>
             </h:form>
         </p>
     </h:body>
