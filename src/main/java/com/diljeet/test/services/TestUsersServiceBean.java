@@ -5,6 +5,8 @@
  */
 package com.diljeet.test.services;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.util.StatusPrinter;
 import com.diljeet.test.customexceptions.PasswordsDontMatchException;
 import com.diljeet.test.interfaces.TestUsersService;
 import com.diljeet.test.ejb.TestUsersBean;
@@ -24,7 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.mail.Session;
@@ -35,6 +37,8 @@ import javax.persistence.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -44,7 +48,8 @@ import javax.ws.rs.core.Response;
 //@RolesAllowed("Administrator")
 public class TestUsersServiceBean implements TestUsersService {
 
-    private static final Logger logger = Logger.getLogger(TestUsersBean.class.getCanonicalName());
+//    private static final Logger logger = Logger.getLogger(TestUsersBean.class.getCanonicalName());
+    private static final Logger LOG = LoggerFactory.getLogger(TestUsersBean.class.getCanonicalName());
 
     @PersistenceContext(name = "my-persistence-unit")
     private EntityManager em;
@@ -102,7 +107,8 @@ public class TestUsersServiceBean implements TestUsersService {
                 }
 
             } catch (Exception e) {
-                logger.log(Level.SEVERE, e.getMessage());
+//                logger.log(Level.SEVERE, e.getMessage());
+                LOG.error(e.getMessage());
                 return null;
             }
 
@@ -137,21 +143,23 @@ public class TestUsersServiceBean implements TestUsersService {
             query.setParameter("username", username);
             Object accountExists = query.getSingleResult();
             TestUsers existingUser = (TestUsers) accountExists;
-            
+
             if (existingUser instanceof TestUsers) {
-                if ((existingUser.getIsActive()).equals("no")) {
+                if ((existingUser.getIsActive()).equals("no")) {    
                     existingUser.setIsActive("yes");
                     res.sendRedirect(req.getContextPath() + "/login.xhtml?account=true");
                 } else {
                     res.sendRedirect(req.getContextPath() + "/login.xhtml?isactive=true");
                 }
             } else {
-                logger.log(Level.SEVERE, "Account does not Exist");
+//                logger.log(Level.SEVERE, "Account does not Exist");
+                LOG.error("Account does not Exist");
                 res.sendRedirect(req.getContextPath() + "/login.xhtml?account=false");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            logger.log(Level.SEVERE, e.getMessage());
+//            logger.log(Level.SEVERE, e.getMessage());
+            LOG.error(e.getMessage());
         }
     }
 
@@ -187,13 +195,16 @@ public class TestUsersServiceBean implements TestUsersService {
                     return Response.status(Response.Status.NOT_MODIFIED).build();
                 }
             } else {
+                LOG.error("User not Found");
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
         } catch (Exception e) {
             if (e instanceof NoResultException) {
+                LOG.error("User not Found");
                 return Response.status(Response.Status.NOT_FOUND).build();
             } else {
-                logger.log(Level.SEVERE, e.getMessage());
+//                logger.log(Level.SEVERE, e.getMessage());
+                LOG.error(e.getMessage());
                 return null;
             }
         }
@@ -208,7 +219,7 @@ public class TestUsersServiceBean implements TestUsersService {
             Object accountExists = query.getSingleResult();
             TestUsers existingUser = (TestUsers) accountExists;
 
-            if ((existingUser instanceof TestUsers) 
+            if ((existingUser instanceof TestUsers)
                     && (existingUser.getIsActive()).equals("yes")) {
                 existingUser.setIsPasswordChangeRequest("yes");
                 if ((user.getPassword()).equals(user.getRetypePassword())) {
@@ -238,7 +249,8 @@ public class TestUsersServiceBean implements TestUsersService {
             if (e instanceof NoResultException) {
                 return Response.status(Response.Status.NOT_FOUND).build();
             } else {
-                logger.log(Level.SEVERE, e.getMessage());
+//                logger.log(Level.SEVERE, e.getMessage());
+                LOG.error(e.getMessage());
                 return null;
             }
         }
@@ -267,14 +279,15 @@ public class TestUsersServiceBean implements TestUsersService {
                 existingUser.setPassword(encodedPassword);
                 existingUser.setIsPasswordChangeRequest("no");
                 res.sendRedirect(req.getContextPath() + "/login.xhtml?passwordChanged=true");
-            } else if ((existingUser.getIsPasswordChangeRequest()).equals("no")) {                
+            } else if ((existingUser.getIsPasswordChangeRequest()).equals("no")) {
                 res.sendRedirect(req.getContextPath() + "/login.xhtml?passwordAlreadyChanged=true");
-            } else {                
+            } else {
                 res.sendRedirect(req.getContextPath() + "/login.xhtml?account=false");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            logger.log(Level.SEVERE, e.getMessage());
+//            logger.log(Level.SEVERE, e.getMessage());
+            LOG.error(e.getMessage());
         }
     }
 
