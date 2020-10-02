@@ -101,16 +101,17 @@ public class TestUsersBean {
 //    HttpServletRequest req;
 //
 //    @
-//    HttpServletResponse res;
+//    HttpServletResponse res;    
+    
     @PostConstruct
     public void init() {
-        client = ClientBuilder.newClient();
+        client = ClientBuilder.newClient();           
     }
 
     @PreDestroy
     public void destroy() {
         client.close();
-    }
+    }       
 
     public void createUser(TestUsers user) {
         if (user == null) {
@@ -168,7 +169,7 @@ public class TestUsersBean {
         return users;
     }
 
-    public void forgotPassword(String username) {
+    public void forgotPassword(String username) {     
         try {
             Response response = client.target("http://localhost:8080/test/webapi/TestUsers/retrieve-password/")
                     .path(username)
@@ -178,12 +179,12 @@ public class TestUsersBean {
                 FacesContext.getCurrentInstance().getExternalContext().redirect("/test/login.xhtml?sentPassword=true");
 //                res.sendRedirect(req.getContextPath() + "/login.xhtml?sentPassword=true");
             } else if (response.getStatus() == Response.Status.NOT_FOUND.getStatusCode()
-                    || response.getStatus() == Response.Status.NOT_MODIFIED.getStatusCode()) {
+                    || response.getStatus() == Response.Status.NOT_MODIFIED.getStatusCode()) {                
                 throw new UserAccountDoesNotExistException("Account/User either is inactive or does not exist.");
             }
-        } catch (UserAccountDoesNotExistException e) {
+        } catch (UserAccountDoesNotExistException e) {            
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
-            FacesContext.getCurrentInstance().addMessage(testUsersController.getResetPasswordBtn().getClientId(), msg);
+            FacesContext.getCurrentInstance().addMessage(testUsersController.getResetPasswordBtn().getClientId(), msg);            
         } catch (Exception e) {
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
             FacesContext.getCurrentInstance().addMessage(testUsersController.getResetPasswordBtn().getClientId(), msg);
@@ -191,7 +192,7 @@ public class TestUsersBean {
 
     }
     
-    public void changePassword(TestUsers user) {
+    public void changePassword(TestUsers user) {   
         try {
             Response response = client.target("http://localhost:8080/test/webapi/TestUsers/")
                     .path(user.getUsername())                 
@@ -208,6 +209,7 @@ public class TestUsersBean {
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), null);
             FacesContext.getCurrentInstance().addMessage(testUsersController.getChangePasswordBtn().getClientId(), msg);
         } catch (UserAccountDoesNotExistException | PasswordsDontMatchException e) {
+//            testUsersController.setIsProgressBar(false);
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
             FacesContext.getCurrentInstance().addMessage(testUsersController.getChangePasswordBtn().getClientId(), msg);
         } catch (Exception e) {
