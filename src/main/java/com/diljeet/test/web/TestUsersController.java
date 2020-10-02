@@ -41,8 +41,6 @@ public class TestUsersController implements Serializable {
 
     private UIComponent changePasswordBtn;
 
-    private Integer progress1;
-
     @EJB
     private TestUsersBean testUsersBean;
 
@@ -89,46 +87,6 @@ public class TestUsersController implements Serializable {
         this.changePasswordBtn = changePasswordBtn;
     }  
 
-    public Integer getProgress1() {
-
-        progress1 = updateProgress(progress1);
-
-        return progress1;
-    }
-
-    private Integer updateProgress(Integer progress) {
-        if (progress == null) {
-            progress = 0;
-        } else {
-            progress = progress + (int) (Math.random() * 35);
-
-            if (progress > 100) {
-                progress = 100;
-            }
-            
-//            if (progress == 100) {
-//                progress = null;
-//            }
-
-        }
-
-        return progress;
-    }
-
-    public void setProgress1(Integer progress1) {
-        this.progress1 = progress1;
-    }
-
-    public void onComplete() {
-//        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Progress Completed"));
-//        setProgress1(null);
-        progress1 = 100;
-    }
-
-    public void cancel() {
-        progress1 = null;
-    }
-
     public void clearFields() {
         user.setUsername(null);
         user.setPassword(null);
@@ -144,13 +102,11 @@ public class TestUsersController implements Serializable {
 
     public void forgotPassword(String username) {
         testUsersBean.forgotPassword(username);
-        onComplete();
         clearFields();
     }
 
     public void changePassword(TestUsers user) {
         testUsersBean.changePassword(user);
-        onComplete();
         clearFields();
     }
    
